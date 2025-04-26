@@ -18,11 +18,11 @@ fn main() -> io::Result<()> {
 fn transform_arguments(strings: &[String]) -> Vec<String> {
     strings
         .iter()
-        .map(|string| transform_argument(string))
+        .map(|string| swap_characters(string))
         .collect::<Vec<String>>()
 }
 
-fn transform_argument(argument: &str) -> String {
+fn swap_characters(argument: &str) -> String {
     argument.chars().map(swap_character).collect::<String>()
 }
 
