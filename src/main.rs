@@ -4,22 +4,16 @@ use std::{
 };
 
 fn main() -> io::Result<()> {
-    let arguments_and_path = env::args().collect::<Vec<String>>();
-    let Some(arguments) = arguments_and_path.get(1..) else {
-        return Ok(());
-    };
-    let mut stdout = io::stdout();
-
-    stdout.write_all(transform_arguments(arguments).join(" ").as_bytes())?;
+    io::stdout().write_all(
+        env::args()
+            .skip(1) // First argument is usually executable path or name. We don't need it.
+            .map(|string| swap_characters(&string))
+            .collect::<Vec<String>>()
+            .join(" ")
+            .as_bytes(),
+    )?;
 
     Ok(())
-}
-
-fn transform_arguments(strings: &[String]) -> Vec<String> {
-    strings
-        .iter()
-        .map(|string| swap_characters(string))
-        .collect::<Vec<String>>()
 }
 
 fn swap_characters(argument: &str) -> String {
