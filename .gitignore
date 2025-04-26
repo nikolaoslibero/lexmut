@@ -5,3 +5,4 @@
 *.pdb
 .idea/
 .bacon-locations
+.vscode/
