@@ -4,14 +4,14 @@ use std::{
 };
 
 fn main() -> io::Result<()> {
-    io::stdout().write_all(
-        env::args()
-            .skip(1) // First argument is usually executable path or name. We don't need it.
-            .map(|string| swap_characters(&string))
-            .collect::<Vec<String>>()
-            .join(" ")
-            .as_bytes(),
-    )?;
+    let mutated_arguments = env::args()
+        .skip(1) // First argument is usually executable path or name. We don't need it.
+        .map(|string| swap_characters(&string))
+        .collect::<Vec<String>>()
+        .join(" ");
+    let byte_slice = mutated_arguments.as_bytes();
+
+    io::stdout().write_all(byte_slice)?;
 
     Ok(())
 }
