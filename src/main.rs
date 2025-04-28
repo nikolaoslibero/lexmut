@@ -4,24 +4,24 @@ use std::{
 };
 
 fn main() -> io::Result<()> {
-    let mutated_arguments = env::args()
+    let shifted_arguments = env::args()
         .skip(1) // First argument is usually executable path or name. We don't need it.
-        .map(|string| swap_characters(&string))
+        .map(|string| shift_characters(&string))
         .collect::<Vec<String>>()
         .join(" ");
-    let byte_slice = mutated_arguments.as_bytes();
+    let byte_slice = shifted_arguments.as_bytes();
 
     io::stdout().write_all(byte_slice)?;
 
     Ok(())
 }
 
-fn swap_characters(argument: &str) -> String {
-    argument.chars().map(swap_character).collect::<String>()
+fn shift_characters(argument: &str) -> String {
+    argument.chars().map(shift_character).collect::<String>()
 }
 
 #[expect(clippy::too_many_lines, reason = "52 characters makes 52 lines")]
-const fn swap_character(char: char) -> char {
+const fn shift_character(char: char) -> char {
     match char {
         'a' => 'e',
         'e' => 'i',
@@ -76,5 +76,20 @@ const fn swap_character(char: char) -> char {
         'Y' => 'Z',
         'Z' => 'B',
         _ => char,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn alpha_characters_shifted_by_one() {
+        assert_eq!(shift_characters("Hello, Zuckerberg."), "Jimmu, Badliscish.");
+    }
+
+    #[test]
+    fn non_alpha_characters_not_shifted() {
+        assert_eq!(shift_characters("123, !@#."), "123, !@#.");
     }
 }
