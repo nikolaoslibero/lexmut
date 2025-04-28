@@ -7,7 +7,7 @@ fn main() -> io::Result<()> {
     let shifted_arguments = env::args()
         .skip(1) // First argument is usually executable path or name. We don't need it.
         .map(|string| shift_characters(&string))
-        .collect::<Vec<String>>()
+        .collect::<Vec<_>>()
         .join(" ");
     let byte_slice = shifted_arguments.as_bytes();
 
@@ -17,7 +17,7 @@ fn main() -> io::Result<()> {
 }
 
 fn shift_characters(argument: &str) -> String {
-    argument.chars().map(shift_character).collect::<String>()
+    argument.chars().map(shift_character).collect()
 }
 
 #[expect(clippy::too_many_lines, reason = "52 characters makes 52 lines")]
